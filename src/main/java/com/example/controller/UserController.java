@@ -9,15 +9,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.annotation.ApplicationScope;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
+
+import javax.annotation.PostConstruct;
 
 @Controller
+//@SessionScope - inicjalizacja przy każdym logowania się użytkownika do sesji
+//@RequestScope - inicjalizacja przy każdym requescie http
+//@ApplicationScope - jedna inicjalizacja na całe życie aplikacji
 public class UserController {
+
+    String imie;
+
+    @PostConstruct
+    public void init(){
+        imie = "janusz";
+        System.out.println(imie);
+        System.out.println("zainicjalizowałem stronę");
+    }
 
     @Autowired
     UserDAO userDAO;
 
     @RequestMapping("/main")
     public String mainPage(Model model){
+        System.out.println(imie);
         model.addAttribute("users", userDAO.getUsers());
         return "index";
     }
@@ -30,6 +48,8 @@ public class UserController {
 
     @RequestMapping("/post")
     public String postPage(Model model){
+        imie = "stefan";
+        System.out.println(imie);
         model.addAttribute("user", new User());
         return "post";
     }
