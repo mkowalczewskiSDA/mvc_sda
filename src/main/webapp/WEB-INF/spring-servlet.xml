@@ -24,10 +24,17 @@
 
     <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine"/>
+        <property name="characterEncoding" value="UTF-8" />
+        <property name="contentType" value="text/html; charset=UTF-8" />
     </bean>
 
     <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames" value="messages/messages, messages/messages2"/>
+        <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
 </beans>
